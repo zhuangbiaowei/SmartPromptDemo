@@ -1,0 +1,19 @@
+adapters:
+  openai: OpenAIAdapter
+  ollama: OllamaAdapter
+llms:
+  siliconflow:
+    adapter: openai
+    url: https://api.siliconflow.cn/v1/
+    api_key: ENV["APIKey"]
+    default_model: Qwen/Qwen2.5-7B-Instruct
+  llamacpp:
+    adapter: openai
+    url: http://localhost:8080/    
+  ollama:
+    adapter: ollama
+    url: http://localhost:11434/
+    default_model: qwen2.5
+default_llm: siliconflow
+worker_path: "./workers"
+template_path: "./templates"
