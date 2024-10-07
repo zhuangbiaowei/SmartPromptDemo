@@ -13,5 +13,3 @@ This is a project to provide examples for the [smart_prompt](https://github.com/
 * code.rb
     * In order to calculate the area of a triangle, let LLM generate a ruby function
     * Call this ruby function and print the result
-
-Translated with DeepL.com (free version)
