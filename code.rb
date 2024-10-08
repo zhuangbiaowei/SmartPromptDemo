@@ -1,4 +1,4 @@
-require 'smart_prompt'
+require '../smart_prompt/lib/smart_prompt'
 engine = SmartPrompt::Engine.new('./config/llm_config.yml')
 result = engine.call_worker(:get_code, {
     name: "calculate_triangle_area", 

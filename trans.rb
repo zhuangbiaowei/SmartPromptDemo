@@ -1,4 +1,4 @@
-require 'smart_prompt'
+require '../smart_prompt/lib/smart_prompt'
 engine = SmartPrompt::Engine.new('./config/llm_config.yml')
 text=File.read("./en.txt")
 f = File.new("./zh.txt", "w")

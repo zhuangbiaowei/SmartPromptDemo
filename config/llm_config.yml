@@ -1,6 +1,7 @@
 adapters:
   openai: OpenAIAdapter
   ollama: OllamaAdapter
+logger_file: ./log/log.txt
 llms:
   siliconflow:
     adapter: openai
