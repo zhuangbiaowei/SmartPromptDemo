@@ -1,0 +1,44 @@
+The code for some of the known workers is as follows:
+
+```Ruby
+SmartPrompt.define_worker :answer do
+  use "ollama"
+  model "llama3.2"
+  prompt :answer, {prompt_doc: params[:prompt_doc], prompt: params[:prompt]}
+  send_msg
+end
+```
+
+```Ruby
+require "numo/narray"
+
+SmartPrompt.define_worker :get_embedding do
+  use "siliconflow"
+  model "BAAI/bge-large-zh-v1.5"
+  prompt params[:text]
+  result = embeddings
+  x = Numo::NArray.cast(result[0..params[:length] - 1])
+  norm = Math.sqrt((x * x).sum)
+  (x / norm).to_a
+end
+```
+
+```Ruby
+SmartPrompt.define_worker :smart_agent do
+  use "siliconflow"
+  model "Qwen/Qwen2.5-Coder-7B-Instruct"
+  prompt :smart_agent, {input: params[:text]}
+  send_msg
+end
+```
+Please generate the code for the <%= language %> language worker based on these examples, with the input requirements.
+
+# requirements
+
+<%= requirements %>
+
+# Output format:
+
+```<%= language %>
+...
+```

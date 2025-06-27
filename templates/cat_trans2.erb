@@ -1,0 +1,36 @@
+# Command:
+**Input**: <%= source_language %>
+**Output**: Analysis
+1. **Category**: Based on the content of a given text, the content is from <%= source_location %>, determine to which of the following categories the text belongs:
+   - Abbreviations and acronyms
+   - Dates and times
+   - Numerical value
+   - Monetary units
+   - Units of measurement
+   - Chapter headings
+   - Proper nouns
+   - Literature citations
+   - Fixed expressions, phrases, idioms and expressions
+   - Titles of literary and artistic works
+   - Legal and regulatory provisions
+   - Technical terms
+   - Dialogue, inflections, slang and colloquial expressions
+   - Historical and cultural contexts
+   - Formatted texts, formulas and symbols
+   - Other complex texts
+2. **Instances**: Under this category, enter actual examples from the text.
+
+# Example:
+
+**Input**: NASA's mission was launched on March 1, 2023, at 10:30 PM.
+**Output**(JSON format):  
+{
+  "category": ["Abbreviations and acronyms", "Dates and times"],
+  "Instances": {
+    "Abbreviations and acronyms": ["NASA (name of organization)"],
+    "Date & times": ["March 1, 2023", "10:30 PM"]
+  }
+}
+
+**Input**: <%= text %>
+**Output**(JSON format):  

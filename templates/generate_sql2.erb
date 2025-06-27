@@ -1,0 +1,26 @@
+-- 创建开源新闻条目表
+CREATE TABLE open_source_news (
+    id SERIAL PRIMARY KEY,
+    date DATE NOT NULL,
+    original_title TEXT NOT NULL,
+    chinese_title TEXT,
+    summary TEXT,
+    url TEXT NOT NULL
+);
+
+-- 创建开源新闻类别表
+CREATE TABLE news_category (
+    id SERIAL PRIMARY KEY,
+    category_name TEXT NOT NULL
+);
+
+-- 创建新闻与类别的关联表
+CREATE TABLE news_category_mapping (
+    news_id INTEGER REFERENCES open_source_news(id) ON DELETE CASCADE,
+    category_id INTEGER REFERENCES news_category(id) ON DELETE CASCADE,
+    PRIMARY KEY (news_id, category_id)
+);
+
+基于以上的建表SQL，生成一组INSERT SQL，将以下信息存入数据库，尤其需要注意日期等内容的格式正确。
+
+<%= news %>

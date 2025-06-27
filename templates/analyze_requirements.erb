@@ -1,0 +1,86 @@
+Here are some examples written based on the SmartPrompt framework:
+
+The code for some of the known workers is as follows:
+
+```Ruby
+SmartPrompt.define_worker :answer do
+  use "ollama"
+  model "llama3.2"
+  prompt :answer, {prompt_doc: params[:prompt_doc], prompt: params[:prompt]}
+  send_msg
+end
+```
+
+```Ruby
+require "numo/narray"
+
+SmartPrompt.define_worker :get_embedding do
+  use "siliconflow"
+  model "BAAI/bge-large-zh-v1.5"
+  prompt params[:text]
+  result = embeddings
+  x = Numo::NArray.cast(result[0..params[:length] - 1])
+  norm = Math.sqrt((x * x).sum)
+  (x / norm).to_a
+end
+```
+
+```Ruby
+SmartPrompt.define_worker :smart_agent do
+  use "siliconflow"
+  model "Qwen/Qwen2.5-Coder-7B-Instruct"
+  prompt :smart_agent, {input: params[:text]}
+  send_msg
+end
+```
+
+The code for some of the known templates is as follows:
+
+```ERB
+    按下面提供的文档和步骤来回答接下来的问题：
+    (1) 首先，分析文档中的内容，看是否与问题相关
+    (2) 其次，只能用文档中的内容进行回复,越详细越好
+    (3) 最后，根据问题与输入的文档，整理内容，以自然语言回答问题
+
+    文档:
+    """"
+    &lt;%= prompt_doc %&gt;
+    """"
+
+    问题: &lt;%= prompt %&gt;
+```
+
+```ERB
+# Analysis:
+&lt;%= json %&gt;
+
+# Command: 
+1. Output only translated content
+2. Please follow the input file format strictly and do not add anything else. 
+3. Based on the results of the above analysis, translate the following &lt;%= source_language %&gt;, into &lt;%= target_language %&gt;. 
+
+# Example:
+**Input**: , John Wiley & Sons.
+**Output**: ，约翰·威利父子。
+
+# Task:
+**Input**: &lt;%= text %&gt;
+**Output**(Plain text):
+```
+
+Please generate a more complete description of the requirements based on the initial requirements description below.
+
+parameters should be some legal variable name.
+worker_name and template_name should be a legal <%= language %> file name.
+
+<%= requirements %>
+
+# Output format:
+
+{
+    "parameters": "...", # only the parameter name
+    "worker_name": "...",
+    "worker": "...", # requirements description only
+    "template_name": "...",
+    "template": "..." # requirements description only
+}

@@ -1,0 +1,70 @@
+CREATE TABLE IF NOT EXISTS movies
+(
+    movie_id integer NOT NULL DEFAULT nextval('movies_movie_id_seq'::regclass),
+    title character varying(200) COLLATE pg_catalog."default" NOT NULL,
+    original_title character varying(200) COLLATE pg_catalog."default",
+    release_year integer NOT NULL,
+    runtime_minutes integer,
+    plot_summary text COLLATE pg_catalog."default",
+    rating numeric(3,1),
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    code character varying(50) COLLATE pg_catalog."default",
+    url character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT movies_pkey PRIMARY KEY (movie_id)
+);
+
+CREATE TABLE IF NOT EXISTS genres
+(
+    genre_id integer NOT NULL DEFAULT nextval('genres_genre_id_seq'::regclass),
+    name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT genres_pkey PRIMARY KEY (genre_id),
+    CONSTRAINT genres_name_key UNIQUE (name)
+);
+
+CREATE TABLE IF NOT EXISTS persons
+(
+    person_id integer NOT NULL DEFAULT nextval('persons_person_id_seq'::regclass),
+    name character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    original_name character varying(100) COLLATE pg_catalog."default",
+    birth_date date,
+    biography text COLLATE pg_catalog."default",
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT persons_pkey PRIMARY KEY (person_id)
+);
+
+CREATE TABLE IF NOT EXISTS movie_genres
+(
+    movie_id integer NOT NULL,
+    genre_id integer NOT NULL,
+    CONSTRAINT movie_genres_pkey PRIMARY KEY (movie_id, genre_id),
+    CONSTRAINT movie_genres_genre_id_fkey FOREIGN KEY (genre_id)
+        REFERENCES genres (genre_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT movie_genres_movie_id_fkey FOREIGN KEY (movie_id)
+        REFERENCES movies (movie_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS movie_persons
+(
+    movie_id integer NOT NULL,
+    person_id integer NOT NULL,
+    role role_type NOT NULL,
+    character_name character varying(100) COLLATE pg_catalog."default",
+    CONSTRAINT movie_persons_pkey PRIMARY KEY (movie_id, person_id, role),
+    CONSTRAINT movie_persons_movie_id_fkey FOREIGN KEY (movie_id)
+        REFERENCES movies (movie_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT movie_persons_person_id_fkey FOREIGN KEY (person_id)
+        REFERENCES persons (person_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);
+
+注：演员的role="actor"
+
+基于以上的建表SQL，生成一个查询SQL，用于<%= description %>

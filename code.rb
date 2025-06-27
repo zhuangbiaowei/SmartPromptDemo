@@ -10,6 +10,7 @@ result = engine.call_worker(:get_code, {
 if result.include?("Failed to call LLM after")
   puts result
 else
-  code_str = result + "\n" + "puts calculate_triangle_area(8, 10)"
+  code_str = result + "\n" + "puts calculate_triangle_area(40, 30)"
+  puts code_str
   eval(code_str)
 end
